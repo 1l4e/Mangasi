@@ -7,7 +7,10 @@ import MangaInfoComponent from "@/components/sources/user/MangaInfo.component";
 import MangaChapterListComponent from "@/components/sources/user/MangaChapterList.component";
 import { fetchData } from "@/action/fetch";
 
-export default async function MangaInfo({ params, searchParams }: any) {
+export default async function MangaInfo({ params, searchParams }: {
+  params: {sId:string,mangaSlug:string},
+  searchParams: {type:string}
+}) {
 
   //Check Page type
   const { sId, mangaSlug } = params;

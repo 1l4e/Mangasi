@@ -9,6 +9,7 @@ import { authOptions } from "@/lib/auth";
 import { home } from "@/lib/constant";
 import { findOneSource } from "@/action/SourceModel";
 import { getServerSession } from "next-auth";
+import { fetchSource } from "@/action/fetch";
 
 async function getData(url: string) {
   try {
@@ -46,7 +47,10 @@ export default async function SingleSource({ params, searchParams }: any) {
   if (filter){
     url+= `&filter=${filter}`
   }
-  const mangaLists = await getData(url)
+  const pp = {
+    page,search,filter
+  }
+  const mangaLists = await fetchSource(sources,pp)
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {
     return <NotFound title="Something wrong" />;
   }

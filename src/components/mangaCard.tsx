@@ -4,8 +4,12 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 import AddToCollectionDialog from "./sources/user/AddToCollectionDialog.component";
+import NotFound from "@/app/not-found";
 
 export default async function MangaCard({ data, sources ,collections}: any) {
+  if (!data || !sources || !collections){
+    return <NotFound />
+  }
   return (
     <div className="">
       <div className="overflow-hidden rounded-md relative">

@@ -10,19 +10,19 @@ Before you begin, ensure you have the following installed on your system:
     * PostgreSQL (v12.0 or higher)
 ### Clone the Repository
 
-    ```bash
-    git clone <repository-url>
-    cd manga-reader-app
-    ```
+```bash
+git clone <repository-url>
+cd manga-reader-app
+```
 
 ### Configure Environment Variables
 
     Create a .env file in the root directory of the project and fill it with your database credentials. You can use the .env.example file as a template:
 
-    ```env
-        DATABASE_URL="postgresql://username:password@localhost:5432/manga_reader_db"
-        Replace username and password with your PostgreSQL credentials.
-    ```
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/manga_reader_db"
+Replace username and password with your PostgreSQL credentials.
+```
 
 ### Install Dependencies
     Install the project dependencies by running:

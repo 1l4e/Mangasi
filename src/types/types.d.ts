@@ -1,14 +1,15 @@
+import type {  Prisma  }  from '@prisma/client'
 
-export interface ParamsType {
-    sId: string,
-    chapterSlug ?:string,
-    mangaSlug ?:string,
-}
-
-export interface SearchParamsType {
-    id?:string,
-    page?:string,
-    search?:string,
-    filter?:string,
-    type?:string
-}
+export type Collection = {
+    id: number;
+      name: string;
+      slug: string;
+      image: string;
+      description: string;
+      url: string;
+      chapters: Prisma.JsonValue;
+      created_at: Date | null;
+      updated_at: Date | null;
+      safe: boolean;
+      sourceId: number;
+  }

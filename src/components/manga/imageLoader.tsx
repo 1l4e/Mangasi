@@ -14,6 +14,7 @@ const ImageLoader = ({ src,errorSrc, ...props }: ImageProps) => {
 
   useEffect(() => {
     const img = new Image();
+    console.log(img)
     img.src = src as string;
     img.addEventListener("load", onLoad);
 

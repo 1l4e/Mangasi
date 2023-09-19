@@ -2,12 +2,16 @@ import { deleteOneMangaFromCollection } from "@/action/CollectionController";
 import NotFound from "@/app/not-found";
 import { authOptions } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { Collection } from "@/types/types";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 
 
-export default async function MangaCardPrivate({ data,collectionId }: any) {
+export default async function MangaCardPrivate({ data,collectionId }: {
+  data: Collection,
+  collectionId: string
+}) {
   const session = await getServerSession(authOptions);
   if (!session) return <NotFound />;
   async function removeFromCollection(formData:FormData){
