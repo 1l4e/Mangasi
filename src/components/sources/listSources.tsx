@@ -39,7 +39,7 @@ export default async function ListSource({sources}:{sources:any}) {
             <TableCell><Link className='flex items-center' href={`/dashboard/sources/${item.id}`}>
               <Image 
               className='inline-block pr-2'
-              src={`/api/proxy?source=${item.url}&image=${item.image}`}
+              src={item.image}
                alt={item.name} width={200} height={30} />{item.name}</Link>
             </TableCell>
             {/* <TableCell>{session?.user.is_admin && item.url }</TableCell> */}

@@ -48,7 +48,7 @@ export default function MangaViewer({
             errorSrc={lazyImage.src}
             loading="lazy"
             className={`${imageWidth}  mx-auto object-cover h-auto transition-opacity`}
-            src={`/api/${proxy}?source=${source.url}&image=${image}`}
+            src={image}
             alt="index"
           />
         </div>

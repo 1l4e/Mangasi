@@ -17,7 +17,7 @@ export default async function MangaCard({ data, sources ,collections}: any) {
         <Link href={`${sources.id}/${data.url}`}>
         {/* <Link href={`/dashboard/manga/${data.url}?id=${sources.id}`}> */}
           <img
-            src={`/api/proxy2?source=${sources.url}&image=${data.image}`}
+            src={data.image}
             alt="alt"
             width={305}
             height={400}

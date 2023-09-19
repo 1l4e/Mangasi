@@ -1,5 +1,4 @@
 import NotFound from "@/app/not-found";
-import ApiMangaDetail from "@/components/apiSource/apiMangaDetail";
 import { findOneSource } from "@/action/SourceModel";
 import ChapterInfo from "@/app/dashboard/sources/[sId]/[...mangaSlug]/chapterSlug";
 import MangaChapterListComponent from "@/components/sources/user/MangaChapterList.component";
@@ -23,9 +22,7 @@ export default async function MangaInfo({ params, searchParams }: any) {
     return <ChapterInfo  params={params} sources={sources} />;
   }
   console.log('this not run')
-  if (sources.type === "api") {
-    return <ApiMangaDetail params={params} searchParams={searchParams} />;
-  }
+
 
   const mangaData = await fetchManga(sources,mangaSlug);
   if (!mangaData) {

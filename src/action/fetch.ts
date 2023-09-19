@@ -1,3 +1,4 @@
+import { home } from "@/lib/constant";
 import { source } from "@prisma/client";
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -14,22 +15,38 @@ export async function fetchData(url: string, cache: RequestCache) {
   }
 }
 
+
+function proxyFetch(image:string,proxy:string,proxyType:string,source:string){
+  if (proxy){
+    if(proxyType){
+      image= proxyType+`api/proxy2?source=${source}&image=${image}`
+    }
+    else{
+      image = home+`api/proxy2?source=${source}&image=${image}`
+    }
+  }
+  return image
+}
+
 export async function fetchChapter(source: source, chapter: string) {
   try {
     let obj: any = source.selector;
+    const proxy = obj.proxy;
+    const proxyType= obj.eproxy;
     // Combine the home and news URLs
     let pathSegments = [obj.manga_slug, chapter];
     let url = new URL(
       pathSegments.filter((segment: string) => segment !== "").join("/"),
       obj.home
-    );
+    ).href;
     const headers = {
       "User-agent":
         obj.agent ||
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
       Referral: obj.home,
     };
-    const response = await axios.get(url.toString(), {
+    url = proxyFetch(url,proxy,proxyType,obj.home)
+    const response = await axios.get(url, {
       headers,
     });
     const html = response.data;
@@ -40,7 +57,10 @@ export async function fetchChapter(source: source, chapter: string) {
     mangaInfo.parent = $(obj.manga.child.chapter.child.parent).attr("href");
     mangaInfo.images = [];
     $(obj.manga.child.chapter.child.selector).each((idx, imageElement) => {
-      const image = $(imageElement).attr(server[0]);
+      let image = $(imageElement).attr(server[0]) || "";
+
+        image = proxyFetch(image,proxy,proxyType,obj.home)
+
       mangaInfo.images.push(image);
     });
     return mangaInfo;
@@ -53,6 +73,8 @@ export async function fetchChapter(source: source, chapter: string) {
 export async function fetchManga(source: source, manga: string) {
   try {
     let obj: any = source.selector;
+    const proxy = obj.proxy;
+    const proxyType= obj.eproxy;
     // Combine the home and news URLs
     const headers = {
       "User-agent":
@@ -64,8 +86,8 @@ export async function fetchManga(source: source, manga: string) {
     let url = new URL(
       pathSegments.filter((segment: string) => segment !== "").join("/"),
       obj.home
-    );
-
+    ).href;
+      url = proxyFetch(url,proxy,proxyType,obj.home)
     // Fetch the HTML content of the combined URL
     const response = await axios.get(url.toString(), {
       headers,
@@ -79,10 +101,10 @@ export async function fetchManga(source: source, manga: string) {
     const mangaInfo: any = {};
 
     // Extract manga name from the provided selector
-    mangaInfo.name = $(obj.manga.child.name).text().trim();
-    mangaInfo.author = $(obj.manga.child.author).text().trim();
-    mangaInfo.otherName = $(obj.manga.child.otherName).text().trim();
-    mangaInfo.description = $(obj.manga.child.description).text().trim();
+    mangaInfo.name = $(obj.manga.child.name).text().trim() || "";
+    mangaInfo.author = $(obj.manga.child.author).text().trim() || "";
+    mangaInfo.otherName = $(obj.manga.child.otherName).text().trim() || "";
+    mangaInfo.description = $(obj.manga.child.description).text().trim() || "";
     mangaInfo.genres = [];
     $(obj.manga.child.genres).each((idd, genresItem) => {
       const genresUrl = $(genresItem).attr("href");
@@ -94,7 +116,9 @@ export async function fetchManga(source: source, manga: string) {
       });
     });
     // Extract manga image URL from the provided selector
-    mangaInfo.image = $(obj.manga.child.image).attr("src");
+    let ima = $(obj.manga.child.image).attr("src") || "";
+    ima = proxyFetch(ima,proxy,proxyType,obj.home)
+    mangaInfo.image = ima
     const type = obj.manga.child.type;
     if (type) {
       const styleAttribute = $(type)?.attr("style");
@@ -157,6 +181,8 @@ export async function fetchSource(source: source, searchParams: any) {
   const { page, search, loc } = searchParams;
   try {
     let obj: any = source.selector;
+    const proxy = obj.proxy;
+    const proxyType = obj.eproxy
     // Combine the home and news URLs
     let url = `${obj.home}${obj.news}`;
     if (search) {
@@ -171,7 +197,7 @@ export async function fetchSource(source: source, searchParams: any) {
         url += pages;
       }
     }
-    console.log(url);
+    
     const headers = {
       "User-agent":
         obj.agent ||
@@ -179,7 +205,7 @@ export async function fetchSource(source: source, searchParams: any) {
       Referral: obj.home,
     };
     // Fetch the HTML content of the combined URL
-
+    url = proxyFetch(url,proxy,proxyType,obj.home)
     const response = await axios.get(url, {
       headers,
     });
@@ -210,14 +236,12 @@ export async function fetchSource(source: source, searchParams: any) {
       // Extract manga image URL from the provided selector
       mangaInfo.image = $(element)
         .find(obj.manga.item.image)
-        .attr("data-original");
+        .attr("data-original") || "";
       if (!mangaInfo.image) {
-        mangaInfo.image = $(element).find(obj.manga.item.image).attr("src");
+        mangaInfo.image = $(element).find(obj.manga.item.image).attr("src") || "";
+
       }
-      /*         const ele =  $(element).find(obj.manga.item.name)
-        mangaInfo.name =ele.text().trim();
-        mangaInfo.url = ele.attr('href') */
-      // Extract manga image URL from the provided selector
+      mangaInfo.image = proxyFetch(mangaInfo.image,proxy,proxyType,obj.home)
       const type = obj.manga.item.type;
       if (type) {
         const styleAttribute = $(element).find(type)?.attr("style");
