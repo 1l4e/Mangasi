@@ -197,7 +197,7 @@ export async function fetchSource(source: source, searchParams: any) {
       // Extract manga name from the provided selector
       const ele = $(element).find(obj.manga.item.name);
       const name = ele.text().trim();
-      if (!loc && mangaFilter(name, filter)) {
+      if (!source.safe&& !loc && mangaFilter(name, filter)) {
         filterNumber++;
         return;
       }
