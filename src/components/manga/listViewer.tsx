@@ -64,7 +64,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
   }, [chapterSlug, list.chapters, id, router]);
 
   return (
-    <div className={className}>
+    <div >
       <div
         className="dragonal h-screen text-xl lg:text-4xl w-full flex justify-center items-center text-red-500"
         style={{
@@ -74,7 +74,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
         {nextC ? "Scroll to next Chapter" : "This is the last chapter"}
       </div>
       {/* <div className="h-4"></div> */}
-      <div className="fixed bottom-20 z-50 flex-col gap-4 flex left-2">
+      <div className={`${className} fixed bottom-20 z-50 flex-col gap-4 flex left-2`}>
         <div>
           {prevC && (
             <Link
