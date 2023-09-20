@@ -88,55 +88,66 @@ Happy reading! 📚📖
 # Default Pattern
 
 {
-    "hot": "hot",
-    "home": "https://www.nettruyenus.com/",
-    "news": "",
-    "proxy":"proxy2",
-    "manga": {
-        "item": {
-            "name": "h3 a",
-            "image": ".image img",
-            "new_chapter": {
-                "selector": "ul li",
-                "chapter_name": "a",
-                "chapter_updated": "i.time"
-            }
+    "api": "https://lxmanga.net/",
+    "home": [
+        {
+            "slug": "/",
+            "title": "Truyện hot",
+            "selector": ".glide"
         },
-        "child": {
-            "name": "#item-detail h1.title-detail",
-            "image": ".detail-info img",
-            "author": "li.author a",
-            "genres": ".kind a",
-            "status": "li.status a",
-            "chapter": {
-                "child": {
-                    "parent": "h1 a",
-                    "selector": ".page-chapter img",
-                    "nextChapter": ".page-chapter img",
-                    "prevChapter": ".page-chapter img"
-                },
-                "server": [
-                    "data-original",
-                    "data-cdn"
-                ],
-                "chapterList": "#item-detail .list-chapter nav ul li",
-                "chapterName": ".chapter a",
-                "updatedTime": " .no-wrap.small"
-            },
-            "otherName": "li.othername h2",
-            "description": ".detail-content p"
-        },
-        "selector": ".items .item"
-    },
+        {
+            "slug": "/",
+            "title": "Truyện mới cập nhật",
+            "selector": "div.grid"
+        }
+    ],
+    "proxy": "proxy2",
     "search": "tim-truyen?keyword=",
-    "genreList": "#mainNav > div > div > div > div > ul > li:nth-child(5) > ul > li > div > div:nth-child(1) > ul",
-    "manga_pos": "4",
-    "filterList": ".comic-filter .sort-by div.col-sm-9  div",
-    "manga_slug": "truyen-tranh",
-    "pagination": "page",
-    "chapter_pos": [
-        "4",
-        "5",
-        "6"
-    ]
+    "selector": {
+        "home": {
+            "item": ".w-full.relative",
+            "image": ".cover-frame .cover",
+            "title": "a.text-ellipsis",
+            "latest": ".latest-chapter a",
+            "type" : ".cover",
+            "imageSrc": "background-img"
+        },
+        "info": {
+            "image": ".cover-frame .cover",
+            "title": "div:nth-child(1) > div:nth-child(1) > span:nth-child(2)",
+            "author": "div.mt-2:nth-child(4) > span:nth-child(2) > a:nth-child(1)",
+            "genres": "div.mt-2:nth-child(3) > span:nth-child(2) a",
+            "status": "span.text-blue-500",
+            "otherName": "li.othername h2",
+            "description": ""
+        },
+        "filter": {
+            "item": ".w-full.relative",
+            "image": ".cover-frame .cover",
+            "title": "a.text-ellipsis",
+            "latest": ".latest-chapter a",
+            "type" : ".cover",
+            "imageSrc": "src"
+        },
+        "chapter": {
+            "item": ".text-center img.lazy",
+            "imageSrc": "src"
+        },
+        "category": {
+            "item": ".w-full.relative",
+            "image": ".cover-frame .cover",
+            "title": "a.text-ellipsis",
+            "latest": ".latest-chapter a",
+            "type" : ".cover",
+            "imageSrc": "src"
+        },
+        "chapterLists": {
+            "item": "ul.overflow-y-auto:nth-child(2) a",
+            "time": ".listing td a:nth-child(2)",
+            "title": "",
+            "parent": "nav.grid:nth-child(2) > a:nth-child(2)"
+        }
+    },
+    "proxyType": "",
+    "pagination": "?page=*"
 }

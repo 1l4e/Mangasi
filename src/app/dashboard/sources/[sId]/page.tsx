@@ -11,17 +11,6 @@ import { findOneSource } from "@/action/SourceModel";
 import { getServerSession } from "next-auth";
 import { fetchSource } from "@/action/fetch";
 
-async function getData(url: string) {
-  try {
-    const res = await fetch(url);
-  const data = await res.json();
-  return data.data;
-  } catch (error) {
-    console.log(error)
-    return 
-  }
-  
-}
 
 export default async function SingleSource({ params, searchParams }: any) {
   const safe = await isSafe();
@@ -52,14 +41,13 @@ export default async function SingleSource({ params, searchParams }: any) {
   }
   const mangaLists = await fetchSource(sources,pp);
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {
-    return <NotFound title="Something wrong" />;
+    return <NotFound title="Error fetching data" />;
   }
   return (
     <>
       <Content>{sources.name}</Content>
       <Content>
         <Navigation sources={sources} page={page} />
-
         <MangaLists
           mangaLists={mangaLists}
           sources={sources}

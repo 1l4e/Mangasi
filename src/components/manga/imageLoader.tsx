@@ -14,7 +14,6 @@ const ImageLoader = ({ src,errorSrc, ...props }: ImageProps) => {
 
   useEffect(() => {
     const img = new Image();
-    console.log(img)
     img.src = src as string;
     img.addEventListener("load", onLoad);
 
@@ -34,9 +33,9 @@ const ImageLoader = ({ src,errorSrc, ...props }: ImageProps) => {
         </div>}
       <img
         {...props}
-        alt={src}
+        alt="Image"
         src={src}
-        onError={(e)=>e.currentTarget.src= errorSrc}
+        onError={(e)=>{e.currentTarget.src= errorSrc; setIsLoading(prev=>false)}}
       />
     </>
   );

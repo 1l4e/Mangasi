@@ -9,7 +9,7 @@ import ButtonAction from "../serverActionSubmitButton";
 export default function EditSource({params}:any) {
     console.log(params)
     async function onCreate(formData: FormData) {
-        const res = await editSource(formData)
+        await editSource(formData)
       }
   return (
     <div>

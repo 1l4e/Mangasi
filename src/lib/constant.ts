@@ -1,3 +1,3 @@
 
 
-export const home = process.env.PUBLIC_HOME || 'http://localhost:3000'
+export const home = process.env.PUBLIC_HOME || 'http://localhost:3000/'

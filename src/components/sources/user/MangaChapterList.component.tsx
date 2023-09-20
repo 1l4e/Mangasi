@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { toBase64 } from "@/lib/utils";
 import Link from "next/link";
 
 export default function MangaChapterListComponent({ mangaData, id }: any) {
@@ -25,7 +26,7 @@ export default function MangaChapterListComponent({ mangaData, id }: any) {
           <div className="flex flex-row gap-4">
             <Button variant={"default"} asChild>
               <Link
-                href={`/dashboard/sources/${id}/${mangaData.chapters[0].url}`}
+                href={`/dashboard/chapter?source=${id}&chapter=${toBase64(mangaData.chapters[0].url)}`}
               >
                 {" "}
                 Read Last
@@ -33,9 +34,9 @@ export default function MangaChapterListComponent({ mangaData, id }: any) {
             </Button>
             <Button variant={"default"} asChild>
               <Link
-                href={`/dashboard/sources/${id}/${
-                  mangaData.chapters[mangaData.chapters.length - 1].url
-                }`}
+                href={`/dashboard/chapter?source=${id}&chapter=${
+                  toBase64(mangaData.chapters[mangaData.chapters.length - 1].url
+                )}`}
               >
                 {" "}
                 Read First
@@ -50,7 +51,7 @@ export default function MangaChapterListComponent({ mangaData, id }: any) {
             <li className="" key={index}>
               <Link
                 className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
-                href={`/dashboard/sources/${id}/${chapter.url}`}
+                href={`/dashboard/chapter?source=${id}&chapter=${toBase64(chapter.url)}`}
               >
                 <span> {chapter.name}</span>
                 <span className="text-xs text-gray-200">

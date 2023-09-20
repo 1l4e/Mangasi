@@ -1,4 +1,5 @@
 import GoToTopButton from '@/components/manga/backTop'
+import { toBase64 } from '@/lib/utils'
 import { ArrowLeftRight, ArrowRightToLine, MoveHorizontal, MoveLeft, Repeat } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -10,7 +11,7 @@ export default function ButtonChangeSize({showOverlay,toggleImageWidth,imageWidt
     } `}>
   <div  className={`fixed bottom-20 z-50 flex-col gap-1 flex right-2 `}
     >
-      <Link href={`/dashboard/sources/${source.id}/${parent}`} className='bg-green-500 px-4 py-2 rounded-full flex justify-between'>
+      <Link href={`/dashboard/manga?source=${source.id}&name=${toBase64(parent)}`} className='bg-green-500 px-4 py-2 rounded-full flex justify-between'>
          <MoveLeft className='inline-block' /> Back
       </Link>
       <button className='bg-green-500 px-4 py-2 rounded-full flex justify-between'

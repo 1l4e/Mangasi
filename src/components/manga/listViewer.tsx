@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
-import MangaChapterListComponent from "../sources/user/MangaChapterList.component";
+import { toBase64 } from "@/lib/utils";
 
 export default function ListViewer({ list, id, chapterSlug ,className }: any) {
 
@@ -22,7 +22,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
 
   useEffect(() => {
     if (list.chapters) {
-      const slug = chapterSlug.join("/");
+      const slug = chapterSlug
       const currentIndex = list.chapters?.findIndex((chapter: any) =>
         chapter.url.includes(slug)
       );
@@ -43,15 +43,15 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
           document.documentElement.scrollHeight - 1
         ) {
           if (nextChapter) {
-            router.push(`/dashboard/sources/${id}/${nextChapter}`);
+            router.push(`/dashboard/chapter/?source=${id}&chapter=${toBase64(nextChapter)}`,{scroll:false});
           }
         }
       };
       const handleKeyDown = (e: any) => {
         if (e.keyCode === 37 && prevChapter !== null) {
-          router.push(`/dashboard/sources/${id}/${prevChapter}`);
+          router.push(`/dashboard/chapter/?source=${id}&chapter=${toBase64(prevChapter)}`,{scroll:false});
         } else if (e.keyCode === 39 && nextChapter !== null) {
-          router.push(`/dashboard/sources/${id}/${nextChapter}`);
+          router.push(`/dashboard/chapter/?source=${id}&chapter=${toBase64(nextChapter)}`,{scroll:false});
         }
       };
       window.addEventListener("scroll", handleScroll);
@@ -79,7 +79,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
           {prevC && (
             <Link
               className="bg-green-500 px-4 py-2 rounded-full"
-              href={`/dashboard/sources/${id}/${prevC}`}
+              href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(prevC)}`}
             >
               Prev
             </Link>
@@ -102,7 +102,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
             <li className="" key={index}>
               <Link
                 className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
-                href={`/dashboard/sources/${id}/${chapter.url}`}
+                href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(chapter.url)}`}
               >
                 <span> {chapter.name}</span>
                 <span className="text-xs text-gray-200">
