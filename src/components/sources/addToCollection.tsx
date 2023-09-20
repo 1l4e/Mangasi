@@ -17,8 +17,8 @@ export default function AddToCollection({collections,data,id}:any) {
     <form className='flex' action={(e)=>startTransition(()=> {
         addMangaToCollection(e)
     })}>
-          <input name="manga" type="hidden" value={data.url}></input>
-          <input name="name" type="hidden" value={data.name}></input>
+          <input name="manga" type="hidden" value={data.slug}></input>
+          <input name="name" type="hidden" value={data.title}></input>
           <input name="image" type="hidden" value={data.image}></input>
           <input name="source" type="hidden" value={id}></input>
           <select name="collection" className='min-w-[200px] rounded-sm px-4'>

@@ -133,7 +133,6 @@ export async function addMangaToCollection(formData:FormData){
             sourceId: parseInt(source)
         }
     })
-    console.log("aa")
     if (!man)
     {
         console.log("Add New Manga")
@@ -154,8 +153,7 @@ export async function addMangaToCollection(formData:FormData){
             }
         })
         console.log('Added')
-        revalidatePath('/dashboard/sources/[sId]')
-        revalidatePath('/dashboard/sources/[sId]/[...mangaSlug]')
+        revalidatePath(`/dashboard/sources/${source}`)
         return {
             status:200,
             message: "Add New Manga + Favorite"
@@ -190,7 +188,7 @@ export async function addMangaToCollection(formData:FormData){
         }
     })
    }
-   revalidatePath('/dashboard/sources/[sId]')
+   revalidatePath(`/dashboard/sources/${source}`)
    return {
     status:200,
     message: "OK"

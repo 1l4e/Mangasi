@@ -29,8 +29,7 @@ export default async function MangaInfo({params,searchParams}:
   const mangaSlug= fromBase64(name)
 
   const mangaData = await fetchManga(sources,mangaSlug);
-  //console.log(mangaData)
-  if (!mangaData) {
+  if (!mangaData || mangaData.chapters.length ===0) {
     return <NotFound title="No Manga Data" />;
   }
 

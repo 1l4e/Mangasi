@@ -8,7 +8,6 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import AddToCollection from "../addToCollection";
-import { Button } from "@/components/ui/button";
 
 export default async function AddToCollectionDiaLog({data,id,collections}:any) {
 

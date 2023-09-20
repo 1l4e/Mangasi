@@ -1,7 +1,7 @@
 import { deleteOneMangaFromCollection } from "@/action/CollectionController";
 import NotFound from "@/app/not-found";
 import { authOptions } from "@/lib/auth";
-import { cn } from "@/lib/utils";
+import { cn, toBase64 } from "@/lib/utils";
 import { Collection } from "@/types/types";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export default async function MangaCardPrivate({ data,collectionId }: {
         <input name="manga" type="hidden" value={data.id} />
         <button className="bg-red-500 px-2 text-white absolute top-0 right-0 ">Remove</button>
         </form>
-        <Link href={`/dashboard/sources/${data.sourceId}/${data.url}`}>
+        <Link href={`/dashboard/manga?source=${data.sourceId}&name=${toBase64(data.url)}`}>
           <img
             src={data.image}
             alt="alt"
