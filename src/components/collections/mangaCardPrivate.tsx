@@ -27,7 +27,7 @@ export default async function MangaCardPrivate({ data,collectionId }: {
         <input name="manga" type="hidden" value={data.id} />
         <button className="bg-red-500 px-2 text-white absolute top-0 right-0 ">Remove</button>
         </form>
-        <Link href={`${data.sourceId}/${data.url}`}>
+        <Link href={`/dashboard/sources/${data.sourceId}/${data.url}`}>
           <img
             src={data.image}
             alt="alt"

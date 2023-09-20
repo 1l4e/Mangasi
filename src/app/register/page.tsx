@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import prisma from "@/lib/prisma";
-import md5 from 'md5'
 import { redirect } from "next/navigation";
 import {hash} from 'bcrypt'
 import { signIn } from "next-auth/react";
+import ButtonAction from "@/components/serverActionSubmitButton";
 
 export default function Register() {
     async function Register(formData:FormData){
@@ -61,7 +60,7 @@ export default function Register() {
                 <Input name="password_confirmation" type="password" />
                 <Label>Referral</Label>
                 <Input name="referral" type="text" />
-                <Button className="mt-2">Submit</Button>
+                <ButtonAction/>
             </form>
         </div>
     </>

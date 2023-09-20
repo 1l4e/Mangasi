@@ -15,13 +15,19 @@ export async function fetchData(url: string, cache: RequestCache) {
   }
 }
 
+function proxyUrl(image:string,proxyType:string,source:string){
+    if(proxyType){
+      image= proxyType+`api/proxy2?source=${source}&image=${image}`
+    }
 
+    return image
+}
 function proxyFetch(image:string,proxy:string,proxyType:string,source:string){
   if (proxy){
     if(proxyType){
       image= proxyType+`api/proxy2?source=${source}&image=${image}`
     }
-    else{
+    else {
       image = home+`api/proxy2?source=${source}&image=${image}`
     }
   }
@@ -41,11 +47,10 @@ export async function fetchChapter(source: source, chapter: string) {
     ).href;
     const headers = {
       "User-agent":
-        obj.agent ||
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
       Referral: obj.home,
     };
-    url = proxyFetch(url,proxy,proxyType,obj.home)
+    url = proxyUrl(url,proxyType,obj.home)
     const response = await axios.get(url, {
       headers,
     });
@@ -78,7 +83,6 @@ export async function fetchManga(source: source, manga: string) {
     // Combine the home and news URLs
     const headers = {
       "User-agent":
-        obj.agent ||
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
       Referral: obj.home,
     };
@@ -87,7 +91,7 @@ export async function fetchManga(source: source, manga: string) {
       pathSegments.filter((segment: string) => segment !== "").join("/"),
       obj.home
     ).href;
-      url = proxyFetch(url,proxy,proxyType,obj.home)
+      url = proxyUrl(url,proxyType,obj.home)
     // Fetch the HTML content of the combined URL
     const response = await axios.get(url.toString(), {
       headers,
@@ -200,12 +204,12 @@ export async function fetchSource(source: source, searchParams: any) {
     
     const headers = {
       "User-agent":
-        obj.agent ||
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0",
       Referral: obj.home,
     };
     // Fetch the HTML content of the combined URL
-    url = proxyFetch(url,proxy,proxyType,obj.home)
+    url = proxyUrl(url,proxyType,obj.home)
+    console.log(url)
     const response = await axios.get(url, {
       headers,
     });

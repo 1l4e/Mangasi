@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { updateUserSafe } from "@/app/dashboard/profile/action";
 import { ThemeSwitcher } from "@/components/themeSwitcher";
 import { usePathname  } from "next/navigation";
+import ButtonAction from "./serverActionSubmitButton";
 
 const menus = [
   { id: 1, title: "Trang chủ", slug: "/", icon: Home },
@@ -178,7 +179,7 @@ export default function MainMenuMobile({ safe }: { safe: boolean }) {
                                 Safe Mode
                               </label>
                             </div>
-                            <Button>Save</Button>
+                            <ButtonAction title="Save"/>
                           </form>
                         </div>
                       </div>

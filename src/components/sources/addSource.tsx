@@ -3,9 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
 import { addNewSource } from "@/action/source";
 import { useState } from "react";
+import ButtonAction from "../serverActionSubmitButton";
 
 
 export default function AddSource() {
@@ -48,7 +48,7 @@ export default function AddSource() {
             {item.path[0]} - {item.code} 
           </p>
         ))}
-        <Button>Submit</Button>
+        <ButtonAction/>
       </form>
     </div>
   );

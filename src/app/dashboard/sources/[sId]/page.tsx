@@ -50,7 +50,7 @@ export default async function SingleSource({ params, searchParams }: any) {
   const pp = {
     page,search,filter
   }
-  const mangaLists = await fetchSource(sources,pp)
+  const mangaLists = await fetchSource(sources,pp);
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {
     return <NotFound title="Something wrong" />;
   }

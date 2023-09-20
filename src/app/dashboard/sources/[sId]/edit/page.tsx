@@ -3,10 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 import { editSource } from "@/action/source";
 import { findOneSource } from "@/action/SourceModel";
 import NotFound from "@/app/not-found";
+import ButtonAction from "@/components/serverActionSubmitButton";
 
 
 export default async function EditSource({params}:any) {
@@ -50,7 +50,7 @@ export default async function EditSource({params}:any) {
           </div>
         </div>
         
-        <Button>Submit</Button>
+        <ButtonAction/>
       </form>
     </div>
               </div>

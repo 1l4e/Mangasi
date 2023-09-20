@@ -2,7 +2,7 @@ import { addNewCollection } from "@/action/CollectionController";
 import { getUserFromSession } from "@/action/UserController";
 import NotFound from "@/app/not-found";
 import Content from "@/components/content.component";
-import { Button } from "@/components/ui/button";
+import ButtonAction from "@/components/serverActionSubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authOptions } from "@/lib/auth";
@@ -30,7 +30,7 @@ export default async function NewCollection() {
         <Label htmlFor="image">Image</Label>
         <Input name="image" id="name" type="text" />
         <Input name="user" id="user" type="hidden" value={user.id} />
-        <Button>Submit</Button>
+        <ButtonAction/>
         </div>
        </form>
       </div>

@@ -15,6 +15,7 @@ import { Input } from '../ui/input'
 import { deleteSource } from '@/action/source'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import ButtonAction from '../serverActionSubmitButton'
 
 export default async function ListSource({sources}:{sources:any}) {
   const session = await getServerSession(authOptions);
@@ -53,7 +54,7 @@ export default async function ListSource({sources}:{sources:any}) {
                 </Button>
                 <form action={deleteSource}>
                 <Input name="id" type="hidden" value={item.id} />
-                <Button variant="destructive">Delete</Button>
+                <ButtonAction title="Delete"/>
                 </form>
                 </>
               )}

@@ -2,8 +2,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
 import { editSource } from "@/action/source";
+import ButtonAction from "../serverActionSubmitButton";
 
 
 export default function EditSource({params}:any) {
@@ -39,7 +39,7 @@ export default function EditSource({params}:any) {
           </div>
         </div>
         
-        <Button>Submit</Button>
+        <ButtonAction/>
       </form>
     </div>
   );
