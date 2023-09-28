@@ -5,6 +5,106 @@ import { redirect } from "next/navigation";
 import { isSafe } from "./UserController";
 
 
+export async function fetchBookMark(userId:number,mangaId:string,mangaSlug:string){
+    const res = await prisma.bookmark.findFirst({
+        where: {
+            mangaId: mangaId,
+            userId,
+            reading:mangaSlug
+        }
+    })
+    return res
+}
+
+export async function addBookMark(userId:number,chapter:string,mangaId:string){
+try {
+    console.log(mangaId)
+    const res1 = await prisma.manga.findFirst({
+        where: {
+            slug:mangaId
+        }
+    })
+    console.log(res1)
+    if (res1){
+        const res = await prisma.bookmark.create({
+            data:{
+                reading: chapter,
+                readed: {},
+                position: "",
+                userId,
+                mangaId
+            }
+        })
+        console.log("Success")
+        revalidatePath("/dashboard/chapter")
+        return {status:200,message: "Sucess"}
+    }
+    else{
+        console.log("Failed")
+        revalidatePath("/dashboard/chapter")
+        return {sattus:501,message: "Add Manga to Collection first"}
+    }
+} catch (error) {
+    console.log(error)
+}
+   
+    
+}
+export async function deleteBookmark(id:number){
+    const res= await prisma.bookmark.delete({
+        where : {
+            id
+        }
+    })
+    return res
+}
+export async function findOneCollectionItemsBookMark(collectionId:number,mangaId:string){
+
+    const res = await prisma.bookmark.findMany({
+        where:{
+          manga:{
+            collection:{
+                some:{
+                    id:collectionId,
+                    manga:{
+                        some:{
+                            slug:mangaId
+                        }
+                    }
+                }
+            }
+          },
+        },
+        select:{
+            reading:true,
+            manga:true
+        }
+
+    })
+    return res
+
+}
+export async function findManyCollectionItemsBookMark(collectionId:number){
+
+        const res = await prisma.bookmark.findMany({
+            where:{
+              manga:{
+                collection:{
+                    some:{
+                        id:collectionId
+                    }
+                }
+              },
+            },
+            select:{
+                reading:true,
+                manga:true
+            }
+    
+        })
+        return res
+
+}
 
 export async function findManyCollectionItems(collectionId:number){
     const safe = await isSafe();
@@ -73,6 +173,7 @@ export async function deleteOneMangaFromCollection(formData:FormData,userId?:num
 
 }
 
+
 export async function findManyCollectionByEmail(userId:number){
     const safe = await isSafe();
     if (safe){
@@ -140,9 +241,9 @@ export async function addMangaToCollection(formData:FormData){
             data:{
             name:name,
             image:image,
-            slug:manga,
+            slug:manga.replace("//","/"),
             description:"",
-            url: manga,
+            url: manga.replace("//","/"),
             chapters: {},
             sourceId: parseInt(source),
             collection:{

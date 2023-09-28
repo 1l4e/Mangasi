@@ -94,13 +94,13 @@ model users {
 
 model bookmark {
   id  Int @id @default(autoincrement())
-  readed Json
+  readed Json?
   reading String
-  position String
+  position String?
   userId Int
   user users @relation(fields: [userId],references: [id],onDelete: Cascade,onUpdate: Cascade)
-  mangaId Int
-  manga manga @relation(fields: [mangaId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  mangaId String
+  manga manga @relation(fields: [mangaId],references: [slug],onDelete: Cascade,onUpdate: Cascade)
   created_at DateTime @db.Timestamp(0) @default(now())
   updated_at DateTime @db.Timestamp(0) @default(now())
 }

@@ -3,8 +3,11 @@ import { toBase64 } from '@/lib/utils'
 import { ArrowLeftRight, ArrowRightToLine, MoveHorizontal, MoveLeft, Repeat } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import BookmarkChapter from '../bookmarkChapter'
+import { useSession } from 'next-auth/react'
 
-export default function ButtonChangeSize({showOverlay,toggleImageWidth,imageWidth,parent,source}:any) {
+export default function ButtonChangeSize({showOverlay,toggleImageWidth,imageWidth,parent,source,bookmark,chapterSlug}:any) {
+
   return (
     <div  className={`${
       showOverlay ? "" : "hidden"
@@ -22,7 +25,7 @@ export default function ButtonChangeSize({showOverlay,toggleImageWidth,imageWidt
          <><ArrowRightToLine className='inline-block'/>2/3</> }
       </button>
        <GoToTopButton />
-
+      <BookmarkChapter bookmark={bookmark} chapterSlug={chapterSlug} parent={parent}/>
     </div>
     </div>
     

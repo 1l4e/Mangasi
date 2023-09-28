@@ -122,7 +122,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
           {nextC && (
             <Link
               className="bg-green-500 px-4 py-2 rounded-full"
-              href={`/dashboard/sources/${id}/${nextC}`}
+              href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(nextC)}`}
             >
               Next
             </Link>

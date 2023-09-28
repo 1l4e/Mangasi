@@ -14,7 +14,8 @@ export default function MangaViewer({
   chapterSlug,
   source,
   list,
-  parent
+  parent,
+  bookmark
 }: any) {
   const [imageWidth, setImageWidth] = useState("w-auto");
   const [showOverlay, setShowOverlay] = useState(false);
@@ -39,7 +40,7 @@ export default function MangaViewer({
       <div className="flex flex-col w-full min-h-[120vh]">
      
       <TopBarProgress />
-      <ButtonChangeSize source={source} showOverlay={showOverlay} toggleImageWidth={toggleImageWidth} imageWidth={imageWidth} parent={parent} />
+      <ButtonChangeSize chapterSlug={chapterSlug} source={source} showOverlay={showOverlay} toggleImageWidth={toggleImageWidth} imageWidth={imageWidth} parent={parent} bookmark={bookmark} />
       <div className="reader min-h-screen ">
 
       {mangaData?.images?.map((image: any, index: number) => (
