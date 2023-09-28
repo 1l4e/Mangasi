@@ -48,7 +48,7 @@ export default async function ColletionDetail({params}:{params:{sId:string}}) {
       {uniqueMangaArray.map((data:any,index:number)=> {
 
         return (
-          <div className="">
+          <div className="" key={index}>
             <div className="overflow-hidden rounded-md relative">
               <Link href={`/dashboard/bookmark?source=${data.sourceId}&cId=${id}&name=${toBase64(data.url)}`}>
                 <img

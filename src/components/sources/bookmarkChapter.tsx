@@ -12,9 +12,6 @@ const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
     return <></>;
   }
   const userId = session.user.id;
-  useEffect(()=>{
-
-  },[bookmark])
 
   return (
     <div className={`bg-green-500 px-4 py-2 rounded-full`}>
