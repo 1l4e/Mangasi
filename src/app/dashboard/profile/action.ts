@@ -13,8 +13,8 @@ export async function updateUserSafe(formData:FormData){
     const userSafe = user?.safe
     const safe = formData.get('safe');
     let checked = true;
+    !safe /* && user?.is_admin */ && (checked = false)
 
-    !safe && user?.is_admin && (checked = false)
     if (userSafe!= checked){
         await prisma.users.update({
             where:{

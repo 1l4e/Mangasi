@@ -35,7 +35,7 @@ export default async function SingleSource({ params, searchParams }: any) {
   page = parseInt(page);
 
   const pp = {
-    page,search,filter,category:fromBase64(category)
+    page,search,filter,category: category ?fromBase64(category) : ''
   }
   const mangaLists = await fetchSource(sources,pp);
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {

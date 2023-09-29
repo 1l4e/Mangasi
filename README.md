@@ -71,6 +71,14 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Thank you to the Next.js, PostgreSQL, and Prisma communities for providing the tools and resources necessary to build this Manga Reader App.
 Happy reading! 📚📖
 
+
+
+# Features
+- Collections : Save Manga in collection, will send notification when new chapter is release. Working on process.
+- Bookmark : Bookmark will save chapter to the manga in collection. Need improvement
+- Source : Source to view manga list. only Admin role can Add/Edit source. the JSON still hard to create new source.
+- Manga : Read manga from source, Click on the screen will open the UI to view chapter, go to next/prev chapter, save chapter to collections to read later. change how the images display...
+
 # TO DO NEXT
 
 [X] - Scrolling
