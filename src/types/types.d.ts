@@ -41,10 +41,7 @@ export type Collection = {
       filter: {
         item: string;
         title: string;
-        image: string;
-        imageSrc: string;
-        type:string;
-        latest: string;
+        slug:string;
       };
       info: {
         title: string;

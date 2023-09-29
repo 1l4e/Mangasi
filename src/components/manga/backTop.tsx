@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 const GoToTopButton = ({className}:any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,12 +33,12 @@ const GoToTopButton = ({className}:any) => {
   return (
     <>
       {isVisible && (
-        <button
+        <Button
+        className="flex justify-between gap-2"
           onClick={scrollToTop}
-          className={`bg-green-500 px-4 py-2 rounded-full`}
         >
-          <ArrowUp className="inline-block w-6 h-6" /> TOP
-        </button>
+          <ArrowUp size={16} className="" /> TOP
+        </Button>
       )}
     </>
   );

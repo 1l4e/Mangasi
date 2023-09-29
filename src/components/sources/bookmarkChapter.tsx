@@ -4,6 +4,7 @@ import { addBookMark, deleteBookmark } from "@/action/CollectionController";
 import { BookMarked } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useTransition } from "react";
+import { Button } from "../ui/button";
 
 const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
   const { data: session } = useSession();
@@ -14,16 +15,16 @@ const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
   const userId = session.user.id;
 
   return (
-    <div className={`bg-green-500 px-4 py-2 rounded-full`}>
+    <div className="flex">
         {bookmark === null ? 
         <>
         <form className='flex' action={(e)=>startTransition(()=> {
         addBookMark(userId,chapterSlug,parent)
          })}>
-            <button>
-            <BookMarked className="inline-block w-6 h-6" />{" "}
-            {isLoading ? "Adding" : "Add"}
-            </button>
+            <Button className="flex justify-between gap-2">
+              <BookMarked size={14} />
+            {isLoading ? "Adding" : "Save"}
+            </Button>
             
         </form>
         </> :
@@ -31,10 +32,10 @@ const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
         <form className='flex' action={(e)=>startTransition(()=> {
         deleteBookmark(bookmark.id)
          })}>
-            <button>
-            <BookMarked className="inline-block w-6 h-6" />{" "}
-            {isLoading? "Deleting" : "Del"}
-            </button>
+            <Button className="flex justify-between gap-2">
+              <BookMarked size={14} />
+              {isLoading? "Deleting" : "Del"}
+            </Button>
             
         </form>
         </div>

@@ -50,7 +50,7 @@ export default function MangaChapterListComponent({ mangaData, id }: any) {
           {mangaData.chapters?.map((chapter: any, index: number) => (
             <li className="" key={index}>
               <Link
-                className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
+                className="flex px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 justify-between items-center font-bold rounded-full  visited:text-gray-300 visited:bg-gray-600 visited:hover:bg-gray-400 "
                 href={`/dashboard/chapter?source=${id}&chapter=${toBase64(chapter.url)}`}
               >
                 <span> {chapter.name}</span>

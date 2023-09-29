@@ -10,6 +10,10 @@ import { home } from "@/lib/constant";
 import { findOneSource } from "@/action/SourceModel";
 import { getServerSession } from "next-auth";
 import { fetchSource } from "@/action/fetch";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import Link from "next/link";
+import { fromBase64, toBase64 } from "@/lib/utils";
 
 
 export default async function SingleSource({ params, searchParams }: any) {
@@ -24,20 +28,14 @@ export default async function SingleSource({ params, searchParams }: any) {
   let page = searchParams.page;
   let search = searchParams.search;
   let filter = searchParams.filter
+  let category = searchParams.category
   if (!page) {
     page = 1;
   }
   page = parseInt(page);
-  let url = `${home}/api/sources?id=${sources.id}&page=${page}`;
 
-  if (search) {
-    url += `&search=${search}`;
-  }
-  if (filter){
-    url+= `&filter=${filter}`
-  }
   const pp = {
-    page,search,filter
+    page,search,filter,category:fromBase64(category)
   }
   const mangaLists = await fetchSource(sources,pp);
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {
@@ -53,7 +51,37 @@ export default async function SingleSource({ params, searchParams }: any) {
           sources={sources}
           collections={collections}
         />
-        {<SourceGallery sources={sources} page={page} search={search} />}
+        {<SourceGallery sources={sources} page={page} />}
+        <div className="fixed bottom-20 right-4">
+        <Dialog>
+          <DialogTrigger>
+            <span className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2">
+              Category
+            </span>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>List of Chapter</DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col h-[50vh] overflow-scroll">
+        <ul className="grid grid-cols-1 px-2 md:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-2 text-xs">
+          {mangaLists[0]?.filters?.map((item: any, index: number) => (
+            <li className="" key={index}>
+              <Link
+                className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
+                href={`/dashboard/sources/${sources.id}?category=${toBase64(item.slug)}`}
+              >
+                <span> {item.title}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+          
+          </DialogContent>
+        </Dialog>
+        </div>
       </Content>
     </>
   );

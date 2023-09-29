@@ -74,11 +74,11 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
         {nextC ? "Scroll to next Chapter" : "This is the last chapter"}
       </div>
       {/* <div className="h-4"></div> */}
-      <div className={`${className} fixed bottom-20 z-50 flex-col gap-4 flex left-2`}>
+      <div className={`${className} fixed bottom-20 z-50 flex-col gap-1 flex left-2`}>
         <div>
           {prevC && (
             <Link
-              className="bg-green-500 px-4 py-2 rounded-full"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2"
               href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(prevC)}`}
             >
               Prev
@@ -87,7 +87,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
         </div>
         <Dialog>
           <DialogTrigger>
-            <span className="bg-green-500 px-4 py-2 rounded-full">
+            <span className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2">
               Chapters
             </span>
           </DialogTrigger>
@@ -101,7 +101,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
           {list.chapters?.map((chapter: any, index: number) => (
             <li className="" key={index}>
               <Link
-                className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
+                className="flex px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 justify-between items-center font-bold rounded-full  visited:text-gray-300 visited:bg-gray-600 visited:hover:bg-gray-400 "
                 href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(chapter.url)}`}
               >
                 <span> {chapter.name}</span>
@@ -121,7 +121,7 @@ export default function ListViewer({ list, id, chapterSlug ,className }: any) {
         <div>
           {nextC && (
             <Link
-              className="bg-green-500 px-4 py-2 rounded-full"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2"
               href={`/dashboard/chapter/?source=${id}&chapter=${toBase64(nextC)}`}
             >
               Next

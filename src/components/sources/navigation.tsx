@@ -3,17 +3,26 @@ import Link from "next/link";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const Navigation = ({ sources, page }: any) => {
+
+
   const [search, setSearch] = useState("");
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const mext = new URLSearchParams(Array.from(searchParams.entries()));
+  const brev = new URLSearchParams(Array.from(searchParams.entries()));
+  if (mext.has('page')) mext.delete('page')
+  if (brev.has('page')) brev.delete('page')
+  mext.set('page',parseInt(page)+1 +"")
+  brev.set('page',parseInt(page)-1 < 1 ? "1" : parseInt(page) -1 +"")
   return (
     <nav aria-label="navigation">
       <ul className="flex items-center -space-x-px h-10 mt-2 text-base justify-between">
         <li>
           <Link
-            href={`/dashboard/sources/${sources.id}?page=${
-              page - 1 <= 1 ? (page = 1) : page - 1
-            }`}
+            href={`${pathName}?${brev.toString()}`}
             className="flex items-center justify-center px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <span className="sr-only">Previous</span>
@@ -50,7 +59,7 @@ const Navigation = ({ sources, page }: any) => {
         </div>
         <li>
           <Link
-            href={`/dashboard/sources/${sources.id}?page=${page + 1}`}
+            href={`${pathName}?${mext.toString()}`}
             className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <span className="sr-only">Next</span>

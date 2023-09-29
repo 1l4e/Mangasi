@@ -201,18 +201,19 @@ export async function fetchSource(source: source, searchParams: any) {
     const proxyType = obj.proxyType;
     let url = `${obj.api}`;
     if (category) {
-      url = url + "/" + category.replace("/", "");
+      url = new URL(category,url).href;
     }
+    console.log(searchParams)
 
     if (search) {
-      url = `${obj.api}${obj.search}${search}`;
+      url = `${obj.api}${obj.search.replace('*',search)}`;
     }
     let pageSlug = obj.pagination;
 
     if (page && parseInt(page.toString()) > 0) {
       const pages = pageSlug.toString().replace("*", page);
       if (search) {
-        url += pages;
+        url += pages.replace("?","&");
       } else {
         url += pages;
       }
@@ -229,6 +230,7 @@ export async function fetchSource(source: source, searchParams: any) {
 
     const data: any = [];
     url = proxyUrl(url, proxyType, obj.api);
+    console.log(url)
     if (category) {
       const response = await axios.get(url, {
         headers,
@@ -237,11 +239,18 @@ export async function fetchSource(source: source, searchParams: any) {
 
       // Load the HTML content into Cheerio
       const $ = cheerio.load(html);
-
+      const filterSelector = obj.selector.filter;
+      const filters:any = []
+      $(filterSelector.item).each((index,element)=>{
+        const filterName = $(element).find(filterSelector.title).text().trim() || "";
+        const filterUrl = $(element).attr("href") || "";
+        filters.push({title:filterName,slug:filterUrl})
+      })
       const sections: any = {
         title: "Truyện theo danh mục",
         slug: category,
         mangas: [],
+        filters: [],
       };
       const mangas: any[] = [];
       $(catItemSelector.item).each((index, element) => {
@@ -249,7 +258,7 @@ export async function fetchSource(source: source, searchParams: any) {
 
         const title =
           $(element).find(catItemSelector.title).text().trim() || "";
-        const href = $(element).find(catItemSelector.title).attr("href") || "";
+        let href = $(element).find(catItemSelector.title).attr("href") || "";
         let image =
           $(element)
             .find(catItemSelector.image)
@@ -271,6 +280,9 @@ export async function fetchSource(source: source, searchParams: any) {
           $(element).find(catItemSelector.latest).text().trim() || "";
         let slug = "";
         if (href) {
+          if (!href.startsWith("http")) {
+            href = obj.api + href;
+          }
           slug = new URL(href).pathname;
         }
         mangas.push({
@@ -281,6 +293,7 @@ export async function fetchSource(source: source, searchParams: any) {
         });
       });
       sections.mangas = mangas;
+      sections.filters= filters
       data.push(sections);
     } else {
       const response = await axios.get(url, {
@@ -290,6 +303,13 @@ export async function fetchSource(source: source, searchParams: any) {
 
       // Load the HTML content into Cheerio
       const $ = cheerio.load(html);
+      const filterSelector = obj.selector.filter;
+      const filters:any = []
+      $(filterSelector.item).each((index,element)=>{
+        const filterName = $(element).find(filterSelector.title).text().trim() || "";
+        const filterUrl = $(element).attr("href") || "";
+        filters.push({title:filterName,slug:filterUrl})
+      })
 
       obj.home.forEach((item: SelectorHome, index: number) => {
         const sections: any = {
@@ -343,6 +363,7 @@ export async function fetchSource(source: source, searchParams: any) {
           sections.title = item.title;
           sections.slug = item.slug;
           sections.mangas = mangas;
+          sections.filters= filters
         });
         data.push(sections);
       });

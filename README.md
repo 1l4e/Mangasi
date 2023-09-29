@@ -76,7 +76,7 @@ Happy reading! 📚📖
 [X] - Scrolling
 [X] - Scroll Slider
 [ ] - Back to Manga Info
-[ ] - Bookmark
+[.] - Bookmark 
 [ ] - Password protect collection
 [ ] - New Update status
 [ ] - New Update notification
@@ -124,10 +124,7 @@ Happy reading! 📚📖
         "filter": {
             "item": ".w-full.relative",
             "image": ".cover-frame .cover",
-            "title": "a.text-ellipsis",
-            "latest": ".latest-chapter a",
-            "type" : ".cover",
-            "imageSrc": "src"
+            "slug": "a.text-ellipsis",
         },
         "chapter": {
             "item": ".text-center img.lazy",

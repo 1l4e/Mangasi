@@ -1,10 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-const SourceGallery = ({ sources, page,search }: { sources: any; page: number,search?:string }) => {
+const SourceGallery = ({ sources, page }: { sources: any; page: number}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const pathName = usePathname();
+  const searchParams = useSearchParams();
+  const mext = new URLSearchParams(Array.from(searchParams.entries()));
+  if (mext.has('page')) mext.delete('page')
+  mext.set('page',  page+1 +"")
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -13,12 +18,8 @@ const SourceGallery = ({ sources, page,search }: { sources: any; page: number,se
       ) {
         // User has reached the end of the page, load the next page
         setIsLoading(true); // Set loading to true while pushing to the next page
-        let main = `/dashboard/sources/${sources.id}`
-        let url = '';
-        if (search) url=`${main}?search=${search}`
-        if (page) url=`${main}?page=${page + 1}`
-        if (search && page) url =`${main}?search=${search}&page=${page+1}`
-        router.push(url);
+       
+        router.push(pathName+"?"+mext.toString());
         setIsLoading(false);
       }
     };
