@@ -2,13 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { toBase64 } from "@/lib/utils";
 import Link from "next/link";
+import AddToCollectionDiaLog from "./AddToCollectionDialog.component";
 
-export default function MangaChapterListComponent({ mangaData, id }: any) {
+export default function MangaChapterListComponent({ mangaData, id,collections,mangaSlug }: any) {
+  const data = {
+    title: mangaData.name,
+    slug:mangaSlug,
+    image: mangaData.image
+  }
   return (
     <>
       <div className="flex flex-col lg:flex-row py-20 gap-4">
         <img src={mangaData.image}></img>
-
+        <AddToCollectionDiaLog collections={collections} data={data} id={id} />
         <div className="flex flex-col">
           <h1 className="text-xl text-center">{mangaData.name}</h1>
           <span>Author : {mangaData.author}</span>

@@ -52,7 +52,7 @@ export async function GET(request: Request) {
         data.sessions.forEach( async (session:any) => {
             await axios.post(proxy,{
                 cmd: "sessions.destroy",
-                session:session
+                session:session,
             })
         })
 
@@ -61,6 +61,7 @@ export async function GET(request: Request) {
     status:200
     })
   } catch (error: any) {
+    console.log(error)
     return NextResponse.json({ error: error.message });
   }
 }
