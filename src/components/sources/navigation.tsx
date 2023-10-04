@@ -31,19 +31,15 @@ const Navigation = ({ sources, page }: any) => {
 
     useEffect(() => {
         let timeoutId : NodeJS.Timeout | undefined
-        if (search) {
+
         timeoutId = setTimeout(() => {
 
             router.push(`/dashboard/sources/${sources.id}?search=${search}`);
         }, 500);
-        }else{
-        timeoutId = setTimeout(()=>{
-            router.push(`/dashboard/sources/${sources.id}`)},500)
-        }
+
         return () => {
             clearTimeout(timeoutId);
-        };
-
+        }
     }, [search]);
 
     return (

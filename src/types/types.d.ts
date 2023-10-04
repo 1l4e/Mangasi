@@ -48,6 +48,7 @@ export type Collection = {
         latest: string;
       };
       filter: {
+          type: string;
         item: string;
         title: string;
         slug:string;

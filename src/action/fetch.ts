@@ -16,12 +16,17 @@ export async function fetchData(url: string, cache: RequestCache) {
   }
 }
 
-function proxyUrl(image: string,proxy:string, proxyType: string, source: string) {
-  if (proxy){
-      image = home + `api/${proxy}?source=${source}&image=${image}`;
-  if (proxyType) {
-    image = proxyType + `api/${proxy}?source=${source}&image=${image}`;
-  }
+function proxyUrl(
+  image: string,
+  proxy: string,
+  proxyType: string,
+  source: string
+) {
+  if (proxy) {
+    image = home + `api/${proxy}?source=${source}&image=${image}`;
+    if (proxyType) {
+      image = proxyType + `api/${proxy}?source=${source}&image=${image}`;
+    }
   }
 
   return image;
@@ -47,7 +52,7 @@ export async function fetchChapter(source: source, chapter: string) {
     let obj = source.selector as SourceSelector;
     const proxy = obj.proxy;
     const proxyType = obj.proxyType;
-    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy
+    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy;
     // Combine the home and news URLs
 
     const headers = {
@@ -56,7 +61,7 @@ export async function fetchChapter(source: source, chapter: string) {
       Referal: obj.api,
     };
     let url = (obj.api + chapter).replace(/\/+/g, "/");
-    url = proxyUrl(url, proxy,proxyType, obj.api);
+    url = proxyUrl(url, proxy, proxyType, obj.api);
     const response = await axios.get(url, {
       headers,
     });
@@ -73,6 +78,7 @@ export async function fetchChapter(source: source, chapter: string) {
 
       mangaInfo.images.push(image);
     });
+    console.log(mangaInfo)
     return mangaInfo;
   } catch (error) {
     console.log(error);
@@ -84,7 +90,7 @@ export async function fetchManga(source: source, manga: string) {
   try {
     let obj = source.selector as SourceSelector;
     const proxy = obj.proxy;
-    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy
+    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy;
     const proxyType = obj.proxyType;
     // Combine the home and news URLs
     const headers = {
@@ -93,7 +99,7 @@ export async function fetchManga(source: source, manga: string) {
       Referral: obj.api,
     };
     let url = (obj.api + manga).replace(/\/+/g, "/");
-    url = proxyUrl(url, proxy,proxyType, obj.api);
+    url = proxyUrl(url, proxy, proxyType, obj.api);
     // Fetch the HTML content of the combined URL
     const response = await axios.get(url, {
       headers,
@@ -201,7 +207,7 @@ export async function fetchSource(source: source, searchParams: any) {
     const { page, search, category } = searchParams;
     let obj = source.selector as SourceSelector;
     const proxy = obj.proxy;
-    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy
+    const proxyImage = obj.proxyImage ? obj.proxyImage : obj.proxy;
 
     const proxyType = obj.proxyType;
     let url = `${obj.api}`;
@@ -239,7 +245,7 @@ export async function fetchSource(source: source, searchParams: any) {
       homeItemSelector = obj.selector.search;
     }
     const data: any = [];
-    url = proxyUrl(url,proxy, proxyType, obj.api);
+    url = proxyUrl(url, proxy, proxyType, obj.api);
     console.log(url);
     if (category) {
       const response = await axios.get(url, {
@@ -251,12 +257,29 @@ export async function fetchSource(source: source, searchParams: any) {
       const $ = cheerio.load(html);
       const filterSelector = obj.selector.filter;
       const filters: any = [];
-      $(filterSelector.item).each((index, element) => {
-        const filterName =
-          $(element).find(filterSelector.title).text().trim() || "";
-        const filterUrl = $(element).attr("href") || "";
-        filters.push({ title: filterName, slug: filterUrl });
-      });
+      if (filterSelector.type) {
+        let filterUrl = `${obj.api}${filterSelector.type}`;
+        filterUrl = proxyUrl(filterUrl, proxy, proxyType, obj.api);
+        const res = await axios.get(filterUrl, {
+          headers,
+        });
+        const html2 = res.data;
+        const $$ = cheerio.load(html2);
+
+        $$(filterSelector.item).each((index, element) => {
+          const filterName =
+            $$(element).find(filterSelector.title).text().trim() || "";
+          const filterUrl = $(element).attr("href") || "";
+          filters.push({ title: filterName, slug: filterUrl });
+        });
+      } else {
+        $(filterSelector.item).each((index, element) => {
+          const filterName =
+            $(element).find(filterSelector.title).text().trim() || "";
+            const filterUrl = $(element).find(filterSelector.slug).attr("href") || "";
+          filters.push({ title: filterName, slug: filterUrl });
+        });
+      }
       const sections: any = {
         title: "Truyện theo danh mục",
         slug: category,
@@ -307,22 +330,39 @@ export async function fetchSource(source: source, searchParams: any) {
       sections.filters = filters;
       data.push(sections);
     } else {
-        console.log("URL here")
+      console.log("URL here");
       const response = await axios.get(url, {
         headers,
       });
       const html = response.data;
-       // console.log(html);
+      // console.log(html);
       // Load the HTML content into Cheerio
       const $ = cheerio.load(html);
       const filterSelector = obj.selector.filter;
       const filters: any = [];
-      $(filterSelector.item).each((index, element) => {
-        const filterName =
-          $(element).find(filterSelector.title).text().trim() || "";
-        const filterUrl = $(element).attr("href") || "";
-        filters.push({ title: filterName, slug: filterUrl });
-      });
+      if (filterSelector.type) {
+        let filterUrl = `${obj.api}${filterSelector.type}`;
+        filterUrl = proxyUrl(filterUrl, proxy, proxyType, obj.api);
+        const res = await axios.get(filterUrl, {
+          headers,
+        });
+        const html2 = res.data;
+        const $$ = cheerio.load(html2);
+
+        $$(filterSelector.item).each((index, element) => {
+          const filterName =
+            $$(element).find(filterSelector.title).text().trim() || "";
+          const filterUrl = $(element).find(filterSelector.slug).attr("href") || "";
+          filters.push({ title: filterName, slug: filterUrl });
+        });
+      } else {
+        $(filterSelector.item).each((index, element) => {
+          const filterName =
+            $(element).find(filterSelector.title).text().trim() || "";
+          const filterUrl = $(element).attr("href") || "";
+          filters.push({ title: filterName, slug: filterUrl });
+        });
+      }
       if (!search) {
         obj.home.forEach((item: SelectorHome, index: number) => {
           const sections: any = {
@@ -388,7 +428,7 @@ export async function fetchSource(source: source, searchParams: any) {
         };
         const mangas: any[] = [];
         $(homeItemSelector.item).each((idx, hItem) => {
-            console.log({hItem})
+          // console.log({hItem})
           const title =
             $(hItem).find(homeItemSelector.title).text().trim() || "";
           let href = $(hItem).find(homeItemSelector.title).attr("href") || "";
@@ -408,7 +448,7 @@ export async function fetchSource(source: source, searchParams: any) {
               }
             }
           }
-          image = proxyFetch(image, proxy, proxyType, obj.api);
+          image = proxyFetch(image, proxyImage, proxyType, obj.api);
           const latest =
             $(hItem).find(homeItemSelector.latest).text().trim() || "";
           let slug = "";
@@ -433,10 +473,10 @@ export async function fetchSource(source: source, searchParams: any) {
         data.push(sections);
       }
     }
-    console.log(data);
+    //console.log(data);
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log(error.message);
     return null;
   }
 }
