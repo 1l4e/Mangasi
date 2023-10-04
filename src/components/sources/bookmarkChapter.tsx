@@ -5,6 +5,7 @@ import { BookMarked } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useTransition } from "react";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
   const { data: session } = useSession();
@@ -18,9 +19,10 @@ const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
     <div className="flex">
         {bookmark === null ? 
         <>
-        <form className='flex' action={(e)=>startTransition(()=> {
-        addBookMark(userId,chapterSlug,parent)
+        <form className='flex flex-col' action={(e)=>startTransition(()=> {
+        addBookMark(e,userId,chapterSlug,parent)
          })}>
+          <Input placeholder="Label" className="w-[100px]" name="position"></Input>
             <Button className="flex justify-between gap-2">
               <BookMarked size={14} />
             {isLoading ? "Adding" : "Save"}
@@ -29,9 +31,11 @@ const BookmarkChapter = ({bookmark,chapterSlug,parent}: any) => {
         </form>
         </> :
          <div>
-        <form className='flex' action={(e)=>startTransition(()=> {
+        <form className='flex flex-col' action={(e)=>startTransition(()=> {
         deleteBookmark(bookmark.id)
          })}>
+          <Input value={bookmark?.position} className="w-[100px]" name="position"></Input>
+      
             <Button className="flex justify-between gap-2">
               <BookMarked size={14} />
               {isLoading? "Deleting" : "Del"}

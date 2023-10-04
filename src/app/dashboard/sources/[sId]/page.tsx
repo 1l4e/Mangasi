@@ -6,11 +6,9 @@ import SourceGallery from "@/components/sources/singleSource";
 import { findManyCollectionByEmail } from "@/action/CollectionController";
 import { isSafe } from "@/action/UserController";
 import { authOptions } from "@/lib/auth";
-import { home } from "@/lib/constant";
 import { findOneSource } from "@/action/SourceModel";
 import { getServerSession } from "next-auth";
 import { fetchSource } from "@/action/fetch";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Link from "next/link";
 import { fromBase64, toBase64 } from "@/lib/utils";
@@ -69,7 +67,7 @@ export default async function SingleSource({ params, searchParams }: any) {
           {mangaLists[0]?.filters?.map((item: any, index: number) => (
             <li className="" key={index}>
               <Link
-                className="flex px-4 py-2 bg-green-700 justify-between items-center font-bold rounded-full text-white visited:text-red-600 visited:bg-gray-600 visited:hover:bg-gray-400 "
+                className="flex px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 justify-between items-center font-bold rounded-full     "
                 href={`/dashboard/sources/${sources.id}?category=${toBase64(item.slug)}`}
               >
                 <span> {item.title}</span>
@@ -78,7 +76,7 @@ export default async function SingleSource({ params, searchParams }: any) {
           ))}
         </ul>
       </div>
-          
+
           </DialogContent>
         </Dialog>
         </div>

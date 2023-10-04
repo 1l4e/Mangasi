@@ -18,6 +18,7 @@ export type Collection = {
     api: string;
     search:string;
     pagination:string;
+    proxyImage:string;
     proxy:string;
     proxyType:string;
     home: SelectorHome[];
@@ -29,6 +30,14 @@ export type Collection = {
         imageSrc: string;
         type:string;
         latest: string;
+      };
+      search: {
+        item:string;
+        title:string;
+        image:string;
+        imageSrc:string;
+        type:string;
+        latest:string
       };
       category: {
         item: string;

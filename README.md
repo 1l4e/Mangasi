@@ -46,7 +46,7 @@ npm run dev
 
 Your Manga Reader App should now be running at http://localhost:3000. Open this URL in your web browser to access the application.
 
-Now you can login with default user : 
+Now you can login with default user :
 
 ```
 admin@example.com/123123
@@ -84,13 +84,13 @@ Happy reading! 📚📖
 [X] - Scrolling
 [X] - Scroll Slider
 [ ] - Back to Manga Info
-[.] - Bookmark 
+[.] - Bookmark
 [ ] - Password protect collection
 [ ] - New Update status
 [ ] - New Update notification
 [ ] - Check for collections update
 [X] - NSFW
-
+[x] - Add Proxy3 to bypass cloudflare using https://github.com/FlareSolverr/FlareSolverr
 
 
 # Default Pattern
@@ -99,28 +99,24 @@ Happy reading! 📚📖
     "api": "https://lxmanga.net/",
     "home": [
         {
-            "slug": "/",
+            "slug": "danh-sach",
             "title": "Truyện hot",
-            "selector": ".glide"
-        },
-        {
-            "slug": "/",
-            "title": "Truyện mới cập nhật",
             "selector": "div.grid"
         }
     ],
-    "proxy": "proxy2",
-    "search": "tim-truyen?keyword=",
+    "proxy": "",
+    "search": "tim-kiem?sort=-updated_at&filter[name]=*&filter[status]=2,1",
     "selector": {
         "home": {
             "item": ".w-full.relative",
+            "type": ".cover",
             "image": ".cover-frame .cover",
             "title": "a.text-ellipsis",
             "latest": ".latest-chapter a",
-            "type" : ".cover",
             "imageSrc": "background-img"
         },
         "info": {
+            "type": ".cover",
             "image": ".cover-frame .cover",
             "title": "div:nth-child(1) > div:nth-child(1) > span:nth-child(2)",
             "author": "div.mt-2:nth-child(4) > span:nth-child(2) > a:nth-child(1)",
@@ -130,9 +126,9 @@ Happy reading! 📚📖
             "description": ""
         },
         "filter": {
-            "item": ".w-full.relative",
-            "image": ".cover-frame .cover",
-            "slug": "a.text-ellipsis",
+            "item": "ul.absolute a",
+            "slug": "a",
+            "title": "span"
         },
         "chapter": {
             "item": ".text-center img.lazy",
@@ -140,10 +136,10 @@ Happy reading! 📚📖
         },
         "category": {
             "item": ".w-full.relative",
+            "type": ".cover",
             "image": ".cover-frame .cover",
             "title": "a.text-ellipsis",
             "latest": ".latest-chapter a",
-            "type" : ".cover",
             "imageSrc": "src"
         },
         "chapterLists": {

@@ -16,9 +16,10 @@ export async function fetchBookMark(userId:number,mangaId:string,mangaSlug:strin
     return res
 }
 
-export async function addBookMark(userId:number,chapter:string,mangaId:string){
+export async function addBookMark(e:FormData,userId:number,chapter:string,mangaId:string){
 try {
     console.log(mangaId)
+    const position = e.get('position')
     const res1 = await prisma.manga.findFirst({
         where: {
             slug:mangaId
@@ -30,7 +31,7 @@ try {
             data:{
                 reading: chapter,
                 readed: {},
-                position: "",
+                position: position?.toString() || "",
                 userId,
                 mangaId
             }
@@ -56,6 +57,7 @@ export async function deleteBookmark(id:number){
             id
         }
     })
+    revalidatePath("/dashboard/chapter")
     return res
 }
 export async function findOneCollectionItemsBookMark(collectionId:number,mangaId:string){
@@ -77,7 +79,8 @@ export async function findOneCollectionItemsBookMark(collectionId:number,mangaId
         },
         select:{
             reading:true,
-            manga:true
+            manga:true,
+            position:true
         }
 
     })
