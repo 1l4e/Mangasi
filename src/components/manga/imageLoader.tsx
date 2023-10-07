@@ -72,7 +72,7 @@ const ImageLoader = ({ src, errorSrc, ...props }: ImageProps) => {
         alt="Image"
         src={src}
         onError={(e) => {
-          e.currentTarget.src = errorSrc;
+          console.log("Could'n load",src)
           setIsLoading(false);
         }}
       />
