@@ -5,6 +5,7 @@ import { fetchChapter, fetchManga } from "@/action/fetch";
 import NotFound from "@/app/not-found";
 import MangaViewer from "@/components/manga/mangaViewer";
 import { authOptions } from "@/lib/auth";
+import logger from "@/lib/logger";
 import { fromBase64 } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 
@@ -50,7 +51,7 @@ export default async function ChapterView({
     }
     const bookmarked = await fetchBookMark(user.id,parent,mangaSlug)
     const list = await fetchManga(sources,parent)
-    console.log(parent)
+    logger(parent)
     return (
       <>
         <MangaViewer

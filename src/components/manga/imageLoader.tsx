@@ -1,4 +1,5 @@
 "use client"
+import logger from "@/lib/logger";
 import { useCallback, useEffect, useState } from "react";
 
 interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -16,7 +17,7 @@ const ImageLoader = ({ src, errorSrc, ...props }: ImageProps) => {
   const onError = useCallback(() => {
     if (retryCount < 3) {
       // Retry loading the image
-      console.log("Retrying ", src)
+      logger(`Retrying ${src}`)
       setRetryCount((prevRetryCount) => prevRetryCount + 1);
       setIsLoading(true);
       const img = new Image();
@@ -72,7 +73,7 @@ const ImageLoader = ({ src, errorSrc, ...props }: ImageProps) => {
         alt="Image"
         src={src}
         onError={(e) => {
-          console.log("Could'n load",src)
+          logger(`Could'n load ${src}`)
           setIsLoading(false);
         }}
       />

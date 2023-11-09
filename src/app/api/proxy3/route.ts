@@ -1,3 +1,4 @@
+import logger from "@/lib/logger";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
             status: 200
         })
     } catch (error: any) {
-        console.log(error)
+        logger(error)
         return NextResponse.json({ error: error.message });
     }
 }
@@ -31,35 +32,34 @@ export async function GET(request: Request) {
 
 async function handleProxySession() {
     try {
-        console.log("handle Session")
+        logger("handle Session")
         const resp = await axios.post(proxy,{cmd:"sessions.list"});
         if (resp.status!==200) return NextResponse.json({message: "ERror" },{status:500})
         const sessions = resp.data.sessions;
 
-        console.log(sessions);
+        logger(sessions);
         let session
         if (sessions.length ===0) {
-            console.log("Creating Session");
+            logger("Creating Session");
             const res = await axios.post(proxy, {
                 cmd: "sessions.create"
             })
             if (res.status !== 200) { return NextResponse.json({ message: "Proxy Error", status: 500 }) }
             session = res.data.session
-            console.log(session)
+            logger(session)
         }else{
         session = sessions[0]
         }
-        console.log(session);
+        logger(session);
         return session
     } catch (error) {
-        console.log(error)
+        logger(error)
         return null
     }
 }
 async function destroySession() {
     try {
         const start = new Date();
-        console.log("Destroy Session", start)
         const res = await axios.post(proxy, { cmd: "sessions.list" });
         if (res.status !== 200) return NextResponse.json({ message: "Error" }, { status: 500 })
         const sessions = res.data.sessions;
@@ -68,7 +68,7 @@ async function destroySession() {
         };
 
     } catch (error) {
-        console.log(error)
+        logger(error)
     }
 }
 

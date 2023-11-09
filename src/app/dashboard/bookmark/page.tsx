@@ -2,6 +2,7 @@ import { findOneCollectionItemsBookMark } from "@/action/CollectionController";
 import { findOneSource } from "@/action/SourceModel";
 import { isSafe } from "@/action/UserController";
 import NotFound from "@/app/not-found";
+import logger from "@/lib/logger";
 import { fromBase64, toBase64 } from "@/lib/utils";
 import Link from "next/link";
 
@@ -30,7 +31,7 @@ export default async function MangaInfo({params,searchParams}:
   const mangaSlug= fromBase64(name)
 
   const mangaData = await findOneCollectionItemsBookMark(parseInt(cId),mangaSlug);
-  console.log(mangaData)
+  logger(mangaData)
   if (!mangaData ) {
     return <NotFound title="No Manga Data" />;
   }

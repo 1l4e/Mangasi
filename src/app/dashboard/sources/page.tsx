@@ -4,12 +4,13 @@ import Heading from "@/components/heading.compoenent";
 import ListSource from "@/components/sources/listSources";
 import { isSafe } from "@/action/UserController";
 import { findManySources } from "@/action/SourceModel";
+import logger from "@/lib/logger";
 
 async function getSource(safe:boolean){
   try {
    return  await findManySources(safe);
   } catch (error) {
-    console.log(error)
+    logger(error)
     return 
   }
 }

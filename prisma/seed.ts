@@ -1,3 +1,5 @@
+import logger from "@/lib/logger";
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require('bcrypt')
@@ -70,7 +72,7 @@ async function seed(){
           author_id: uu.id
         }
     })
-    console.log("Seeded")
+    logger("Seeded")
 }
 
 seed()

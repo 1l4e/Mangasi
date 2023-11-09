@@ -4,10 +4,11 @@ import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
 import { editSource } from "@/action/source";
 import ButtonAction from "../serverActionSubmitButton";
+import logger from "@/lib/logger";
 
 
 export default function EditSource({params}:any) {
-    console.log(params)
+    logger(params)
     async function onCreate(formData: FormData) {
         await editSource(formData)
       }

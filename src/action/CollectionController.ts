@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma"
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { isSafe } from "./UserController";
+import logger from "@/lib/logger";
 
 
 export async function fetchBookMark(userId:number,mangaId:string,mangaSlug:string){
@@ -18,14 +19,14 @@ export async function fetchBookMark(userId:number,mangaId:string,mangaSlug:strin
 
 export async function addBookMark(e:FormData,userId:number,chapter:string,mangaId:string){
 try {
-    console.log(mangaId)
+    logger(mangaId)
     const position = e.get('position')
     const res1 = await prisma.manga.findFirst({
         where: {
             slug:mangaId
         }
     })
-    console.log(res1)
+    logger(res1)
     if (res1){
         const res = await prisma.bookmark.create({
             data:{
@@ -36,17 +37,17 @@ try {
                 mangaId
             }
         })
-        console.log("Success")
+        logger("Success")
         revalidatePath("/dashboard/chapter")
         return {status:200,message: "Sucess"}
     }
     else{
-        console.log("Failed")
+        logger("Failed")
         revalidatePath("/dashboard/chapter")
         return {sattus:501,message: "Add Manga to Collection first"}
     }
 } catch (error) {
-    console.log(error)
+    logger(error)
 }
    
     
@@ -239,7 +240,7 @@ export async function addMangaToCollection(formData:FormData){
     })
     if (!man)
     {
-        console.log("Add New Manga")
+        logger("Add New Manga")
         const addManga = await prisma.manga.create({
             data:{
             name:name,
@@ -256,7 +257,7 @@ export async function addMangaToCollection(formData:FormData){
             }
             }
         })
-        console.log('Added')
+        logger('Added')
         revalidatePath(`/dashboard/sources/${source}`)
         return {
             status:200,
@@ -264,7 +265,7 @@ export async function addMangaToCollection(formData:FormData){
         }
     }
     //Manga exists
-    console.log("Manga Exists")
+    logger("Manga Exists")
    const check = await prisma.manga.findFirst({
     where: {
         slug:manga,
@@ -276,7 +277,7 @@ export async function addMangaToCollection(formData:FormData){
         }
     }
    })
-   console.log("Manga is not in Collection, Add new")
+   logger("Manga is not in Collection, Add new")
    if (!check){
     await prisma.manga.update({
         where:{

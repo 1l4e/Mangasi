@@ -1,4 +1,5 @@
 import { home } from "@/lib/constant";
+import logger from "@/lib/logger";
 import { SelectorHome, SourceSelector } from "@/types/types";
 import { source } from "@prisma/client";
 import axios from "axios";
@@ -78,10 +79,10 @@ export async function fetchChapter(source: source, chapter: string) {
 
       mangaInfo.images.push(image);
     });
-    console.log(mangaInfo)
+    logger(mangaInfo)
     return mangaInfo;
   } catch (error) {
-    console.log(error);
+    logger(error);
     return null;
   }
 }
@@ -197,7 +198,7 @@ export async function fetchManga(source: source, manga: string) {
     });
     return mangaInfo;
   } catch (error) {
-    console.log(error);
+    logger(error);
     return null;
   }
 }
@@ -214,7 +215,7 @@ export async function fetchSource(source: source, searchParams: any) {
     if (category) {
       url = new URL(category, url).href;
     }
-    console.log(searchParams);
+    logger(searchParams);
 
     let pageSlug = obj.pagination;
 
@@ -246,7 +247,7 @@ export async function fetchSource(source: source, searchParams: any) {
     }
     const data: any = [];
     url = proxyUrl(url, proxy, proxyType, obj.api);
-    console.log(url);
+    logger(url);
     if (category) {
       const response = await axios.get(url, {
         headers,
@@ -288,7 +289,7 @@ export async function fetchSource(source: source, searchParams: any) {
       };
       const mangas: any[] = [];
       $(catItemSelector.item).each((index, element) => {
-        /*  console.log({data:$(element).html()}) */
+        /*  logger({data:$(element).html()}) */
 
         const title =
           $(element).find(catItemSelector.title).text().trim() || "";
@@ -330,12 +331,12 @@ export async function fetchSource(source: source, searchParams: any) {
       sections.filters = filters;
       data.push(sections);
     } else {
-      console.log("URL here");
+      logger("URL here");
       const response = await axios.get(url, {
         headers,
       });
       const html = response.data;
-      // console.log(html);
+      // logger(html);
       // Load the HTML content into Cheerio
       const $ = cheerio.load(html);
       const filterSelector = obj.selector.filter;
@@ -372,7 +373,7 @@ export async function fetchSource(source: source, searchParams: any) {
           };
           $(item.selector).each((index, element) => {
             const mangas: any[] = [];
-            /*      console.log({data:$(element).html()}) */
+            /*      logger({data:$(element).html()}) */
             $(element)
               .find(homeItemSelector.item)
               .each((idx, hItem) => {
@@ -428,7 +429,7 @@ export async function fetchSource(source: source, searchParams: any) {
         };
         const mangas: any[] = [];
         $(homeItemSelector.item).each((idx, hItem) => {
-          // console.log({hItem})
+          // logger({hItem})
           const title =
             $(hItem).find(homeItemSelector.title).text().trim() || "";
           let href = $(hItem).find(homeItemSelector.title).attr("href") || "";
@@ -473,10 +474,10 @@ export async function fetchSource(source: source, searchParams: any) {
         data.push(sections);
       }
     }
-    //console.log(data);
+    //logger(data);
     return data;
   } catch (error: any) {
-    console.log(error.message);
+    logger(error.message);
     return null;
   }
 }

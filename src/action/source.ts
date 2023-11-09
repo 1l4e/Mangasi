@@ -2,6 +2,7 @@
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import logger from "@/lib/logger";
 
 const sourceSchema = z.object({
   name: z.string(),
@@ -80,7 +81,7 @@ export async function addNewSource(formData: FormData) {
       ],
     };
   } catch (error: any) {
-    console.log(error)
+    logger(error)
     return {
       message: error.errors,
     };
@@ -89,7 +90,7 @@ export async function addNewSource(formData: FormData) {
 
 export async function editSource(formData:FormData){
   try {
-    console.log("Edit Source")
+    logger("Edit Source")
     let id = formData.get('source_id');
     let name = formData.get("source_name");
     let url = formData.get("source_url");

@@ -1,4 +1,5 @@
 import { home } from "@/lib/constant";
+import logger from "@/lib/logger";
 import { source } from "@prisma/client";
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -70,7 +71,7 @@ export async function fetchChapter(source: source, chapter: string) {
     });
     return mangaInfo;
   } catch (error) {
-    console.log(error)
+    logger(error)
     return null;
   }
 }
@@ -155,7 +156,7 @@ export async function fetchManga(source: source, manga: string) {
       }
 
       if (parent === "parent") {
-        console.log("true");
+        logger("true");
         ccurl = $(chapterElement).attr("href")?.toString().split("/");
       }
       const updated = $(chapterElement).find(updatedTimeSelector).text().trim();
@@ -209,7 +210,7 @@ export async function fetchSource(source: source, searchParams: any) {
     };
     // Fetch the HTML content of the combined URL
     url = proxyUrl(url,proxyType,obj.home)
-    console.log(url)
+    logger(url)
     const response = await axios.get(url, {
       headers,
     });
@@ -233,7 +234,7 @@ export async function fetchSource(source: source, searchParams: any) {
       }
       mangaInfo.name = name;
 
-      /*  console.log(ele.attr('href')); */
+      /*  logger(ele.attr('href')); */
       mangaInfo.url = ele.attr("href")?.toString().split("/")[
         parseInt(obj.manga_pos)
       ];
@@ -273,7 +274,7 @@ export async function fetchSource(source: source, searchParams: any) {
             ?.toString()
             .split("/");
           if (parent === "parent") {
-            console.log("true");
+            logger("true");
             ccurl = $(chapterElement).attr("href")?.toString().split("/");
           }
           const selectedParts = [];
@@ -304,7 +305,7 @@ export async function fetchSource(source: source, searchParams: any) {
     });
     return mangaUrls;
   } catch (error) {
-    console.log(error);
+    logger(error);
     return null;
   }
 }
