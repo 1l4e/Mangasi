@@ -33,9 +33,9 @@ export default async function SingleSource({ params, searchParams }: any) {
   page = parseInt(page);
 
   const pp = {
-    page,search,filter,category: category ?fromBase64(category) : ''
+    page, search, filter, category: category ? fromBase64(category) : ''
   }
-  const mangaLists = await fetchSource(sources,pp);
+  const mangaLists = await fetchSource(sources, pp);
   if (!mangaLists || JSON.stringify(mangaLists) === "{}") {
     return <NotFound title="Error fetching data" />;
   }
@@ -51,34 +51,34 @@ export default async function SingleSource({ params, searchParams }: any) {
         />
         {<SourceGallery sources={sources} page={page} />}
         <div className="fixed bottom-20 right-4">
-        <Dialog>
-          <DialogTrigger>
-            <span className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2">
-              Category
-            </span>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>List of Chapter</DialogTitle>
-              <DialogDescription></DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col h-[50vh] overflow-scroll">
-        <ul className="grid grid-cols-1 px-2 md:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-2 text-xs">
-          {mangaLists[0]?.filters?.map((item: any, index: number) => (
-            <li className="" key={index}>
-              <Link
-                className="flex px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 justify-between items-center font-bold rounded-full     "
-                href={`/dashboard/sources/${sources.id}?category=${toBase64(item.slug)}`}
-              >
-                <span> {item.title}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <Dialog>
+            <DialogTrigger>
+              <span className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2">
+                Category
+              </span>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>List of Chapter</DialogTitle>
+                <DialogDescription></DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col h-[50vh] overflow-scroll">
+                <ul className="grid grid-cols-1 px-2 md:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-2 text-xs">
+                  {mangaLists[0]?.filters?.map((item: any, index: number) => (
+                    <li className="" key={index}>
+                      <Link
+                        className="flex px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 justify-between items-center font-bold rounded-full     "
+                        href={`/dashboard/sources/${sources.id}?category=${toBase64(item.slug)}`}
+                      >
+                        <span> {item.title}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
         </div>
       </Content>
     </>

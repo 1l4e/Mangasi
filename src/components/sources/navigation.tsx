@@ -18,23 +18,27 @@ const Navigation = ({ sources, page }: any) => {
     if (brev.has("page")) brev.delete("page");
     mext.set("page", parseInt(page) + 1 + "");
     brev.set("page", parseInt(page) - 1 < 1 ? "1" : parseInt(page) - 1 + "");
-    const obj:SourceSelector = sources.selector;
+    const obj: SourceSelector = sources.selector;
     let defaultCat = obj.home[0].slug
-    if (defaultCat && defaultCat !== '/'){
-        if (!mext.has("category")){
-            mext.set("category", toBase64( defaultCat))
-            }
-        if (!brev.has("category")){
-            brev.set("category", toBase64(defaultCat))
-            }
+    if (defaultCat && defaultCat !== '/') {
+        if (!mext.has("category")) {
+            mext.set("category", toBase64(defaultCat))
         }
+        if (!brev.has("category")) {
+            brev.set("category", toBase64(defaultCat))
+        }
+    }
 
     useEffect(() => {
-        let timeoutId : NodeJS.Timeout | undefined
+        let timeoutId: NodeJS.Timeout | undefined
 
         timeoutId = setTimeout(() => {
-
-            router.push(`/dashboard/sources/${sources.id}?search=${search}`);
+            if (search) {
+                router.push(`/dashboard/sources/${sources.id}?search=${search}`);
+            }
+            if (!search && searchParams.get('search')){
+                router.push(`/dashboard/sources/${sources.id}`)
+            }
         }, 500);
 
         return () => {
@@ -72,7 +76,7 @@ const Navigation = ({ sources, page }: any) => {
                     <Input
                         name="search"
                         value={search}
-                        autoComplete= "off"
+                        autoComplete="off"
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <Button asChild>
